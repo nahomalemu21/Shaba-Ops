@@ -1,0 +1,39 @@
+name: Shaba Search Cypress
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'cypress/**'
+      - 'cypress.config.js'
+      - 'package.json'
+      - '.github/workflows/cypress.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Cypress against Shopify preview
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          install-command: npm install
+
+      - name: Upload Cypress failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-failure-artifacts
+          if-no-files-found: ignore
+          path: |
+            cypress/screenshots
+            cypress/videos
+          retention-days: 7
