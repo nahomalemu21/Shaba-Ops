@@ -1,0 +1,11 @@
+{
+  "name": "shaba-search-tests",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "test:e2e": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "16.1.0"
+  }
+}
