@@ -21,11 +21,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run Cypress against Shopify preview
-        uses: cypress-io/github-action@v6
+      - name: Use Node 22
+        uses: actions/setup-node@v4
         with:
-          browser: chrome
-          install-command: npm install
+          node-version: 22
+
+      - name: Install Cypress
+        run: npm install --no-audit --no-fund
+
+      - name: Run Cypress against Shopify preview
+        run: npx cypress run --browser chrome
 
       - name: Upload Cypress failure evidence
         if: failure()
